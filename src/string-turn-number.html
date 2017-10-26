@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript字符串转数字</title>
+</head>
+<body>
+<script>
+    // parseInt是最快的方式
+    console.log(parseInt('2')); //2
+    console.log(parseInt('08')); //8
+    console.log(parseInt('44.jpg')); //44
+    console.log(parseInt(-0xFF)); //-255
+    console.log(parseInt('-0xFF')); //-255
+
+    console.log(parseFloat('2')); //2
+    console.log(parseFloat('08')); //08
+    console.log(parseFloat('44.jpg')); //44
+    console.log(parseFloat(-0xFF)); //-255
+    console.log(parseFloat('-0xFF')); //-0 一个负十六进制字符串是比较特殊的例子，会导致意想不到的错误
+
+    // 按位取反 只能处理整数
+    console.log(~~'2'); //2
+    console.log(~~'08'); //8
+    console.log(~~'1.23'); //1
+    console.log(~~'-0xff'); //0
+    console.log(~~'44.jpg'); //0
+
+    // Number最慢 从字符里找数字
+    console.log(Number('023')); //23
+    console.log(Number(023)); //19
+    console.log(Number('1.23')); //1.23
+    console.log(Number('44.jpg')); //NaN
+    console.log(Number(-0xFF)); //-255
+    console.log(Number('-0xFF')); //NaN
+
+    // 一元操作
+    console.log('1.23' * 1); //1.23
+    console.log('0xFF' * 1); //255
+    console.log('-0xFF' * 1); //NaN
+    console.log('0xFF.jpg' * 1); //NaN
+    console.log('023' * 1); //23
+
+    console.log('1.23' - 0); //1.23
+    console.log('0xFF' - 0); //255
+    console.log('-0xFF' - 0); //NaN
+    console.log('0xFF.jpg' - 0); //NaN
+    console.log('023' - 0); //23
+
+    console.log('1.23' / 1); //1.23
+    console.log('0xFF' /1); //255
+    console.log('-0xFF' /1); //NaN
+    console.log('0xFF.jpg' / 1); //NaN
+    console.log('023' / 1); //23
+
+    console.log(+'1.23'); //1.23
+    console.log(+'0xFF'); //255
+    console.log(+'-0xFF'); //NaN
+    console.log(+'0xFF.jpg'); //NaN
+    console.log(+'023'); //23
+
+
+</script>
+</body>
+</html>
