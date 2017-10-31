@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格边框间样式冲突</title>
+    <style>
+        h3 {
+            color: green;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            border: 3px solid blue;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h3>1. border-style:none 优先级最低 当且仅当两个相邻产生冲突的边框的border-style为none时，冲突边框才不会显示</h3>
+<table>
+    <tbody>
+        <tr>
+            <td style="border-style: none">左上</td>
+            <td>中上</td>
+            <td>右上</td>
+        </tr>
+        <tr>
+            <td>左中</td>
+            <td style="border-style: none">中</td>
+            <td style="border-style: none">右中</td>
+        </tr>
+        <tr>
+            <td>左下</td>
+            <td>中下</td>
+            <td>右下</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>2. border-style:hidden优先级高于border-style:solid</h3>
+<table>
+    <tbody>
+    <tr>
+        <td>左上</td>
+        <td>中上</td>
+        <td>右上</td>
+    </tr>
+    <tr>
+        <td>左中</td>
+        <td style="border-style: hidden">中</td>
+        <td>右中</td>
+    </tr>
+    <tr>
+        <td>左下</td>
+        <td>中下</td>
+        <td>右下</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>3. border-style的优先级 hidden > double > solid > dashed > dotted > none</h3>
+<table>
+    <tbody>
+        <tr>
+            <td style="border-style: none">none左上</td>
+            <td style="border-style: none">none中上</td>
+            <td style="border-style: none">none右上</td>
+        </tr>
+        <tr>
+            <td style="border-style: dashed">dashed左中</td>
+            <td style="border-style: dotted">dotted中</td>
+            <td style="border-style: none">none右中</td>
+        </tr>
+        <tr>
+            <td>solid左下</td>
+            <td style="border-style: double;">double中下</td>
+            <td style="border-style: hidden">hide右下</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>4. border-width较大者边框样式优先渲染</h3>
+<table>
+    <tbody>
+        <tr>
+            <td>左上</td>
+            <td>中上</td>
+            <td>右上</td>
+        </tr>
+        <tr>
+            <td>左中</td>
+            <td style="border: 4px solid yellow">中</td>
+            <td>右中</td>
+        </tr>
+        <tr>
+            <td>左下</td>
+            <td>中下</td>
+            <td>右下</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>5. table-border优先级 table-cell > table-row > table-row-group > table-col > table-col-group > table</h3>
+
+<h3>6. 左上优先原则
+    水平方向上：当两个单元格只存在颜色不一致的情况下，发生冲突的单元格相对较左侧单元格的样式
+    垂直方向上：当两个单元格只存在颜色不一致的情况下，发上冲突的单元格相对较顶部单元格的样式
+</h3>
+<table>
+    <tbody>
+    <tr>
+        <td>左上</td>
+        <td style="border-color: red">中上</td>
+        <td style="border-color: yellow">右上</td>
+    </tr>
+    <tr>
+        <td style="border-color: black">左中</td>
+        <td style="border-color: orange">中</td>
+        <td style="border-color: grey">右中</td>
+    </tr>
+    <tr>
+        <td>左下</td>
+        <td>中下</td>
+        <td style="border-style: double">右下</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>7. border-style: double 宽度需要大于等于3px才能体现，否则样式与solid无异； border-style:double会发上溢出，并且左右溢出不一致</h3>
+<table>
+    <tbody>
+        <tr>
+            <td style="border-style: double; border-width: 1px">左上</td>
+            <td style="border-style: double; border-width: 2px">中上</td>
+            <td style="border-style: double; border-width: 3px">右上</td>
+        </tr>
+        <tr>
+            <td style="border-style: double; border-width: 4px">左中</td>
+            <td style="border-style: double; border-width: 5px">中</td>
+            <td style="border-style: double; border-width: 6px">右中</td>
+        </tr>
+        <tr>
+            <td style="border-style: double; border-width: 7px">左下</td>
+            <td style="border-style: double; border-width: 8px">中下</td>
+            <td style="border-style: double; border-width: 9px">右下</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>8. border-style:ridge 与 border-style:groove  ridge > groove</h3>
+<table>
+    <tbody style="background-color: greenyellow">
+    <tr>
+        <td>左上</td>
+        <td style="border-style: ridge; border-color: grey">中上</td>
+        <td>右上</td>
+    </tr>
+    <tr>
+        <td>左中</td>
+        <td style="border-style: groove; border-color: grey">中</td>
+        <td>右中</td>
+    </tr>
+    <tr>
+        <td>左下</td>
+        <td>中下</td>
+        <td>右下</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>9. direction属性对table-border的影响</h3>
+<table style="direction: ltr">
+    <tbody>
+        <tr>
+            <td>左上</td>
+            <td>中上</td>
+            <td>右上</td>
+        </tr>
+        <tr>
+            <td style="border-color: red">左中</td>
+            <td style="border-color: yellow">中</td>
+            <td style="border-color: green">右中</td>
+        </tr>
+        <tr>
+            <td>左下</td>
+            <td>中下</td>
+            <td>右下</td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="direction: rtl">
+    <tbody>
+    <tr>
+        <td>左上</td>
+        <td>中上</td>
+        <td>右上</td>
+    </tr>
+    <tr>
+        <td style="border-color: red">左中</td>
+        <td style="border-color: yellow">中</td>
+        <td style="border-color: green">右中</td>
+    </tr>
+    <tr>
+        <td>左下</td>
+        <td>中下</td>
+        <td>右下</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>小结</h3>
+<ol>
+    <li>border-collapse:collapse存在冲突情况 border-collapse:separate不存在冲突情况</li>
+    <li>border-style: hidden边框优先级最高， hidden属性优先于所有其他边界的冲突</li>
+    <li>border-style: none是边框样式的默认值，其优先级最低，只有当发生冲突的所有元素的边框属性都为none时，边框才会被省略</li>
+    <li>border-width的值不相同时，窄边界将会被舍弃，较宽的边界会被显示</li>
+    <li>border-width的值相同时，border-style样式优先级顺序为 double > solid > dotted > ridge > outset > inset</li>
+    <li>border-color的值不相同时，border-color最终显示的颜色优先级如下 table-cell > table-row > table-row-group > table-col > table-col-group > table</li>
+    <li>border-color的值不相同时，但都是同一类型(如:table-cel）,水平方向由direction属性决定，若directio:ltr属性采用相对较左侧的元素样式，若directio:rtl属性则采用相对较右侧的元素样式，垂直方向上采用相对较靠近顶部的元素样式</li>
+    <li>border-collapse: collapse相邻的边框存在冲突，但两对角的两个单元格是不存在冲突现象</li>
+    <li>border-style:double宽度渲染与设置值不一样</li>
+    <li>border-style:double宽度需要大于3px才能体现，否则样式与solid无异</li>
+    <li>水平方向上：当两个单元格只存在颜色不一致的情况下，冲突边界渲染的样式与direction（table上设置该属性）有关。若direction:ltr属则采用相对较左侧的元素样式，若direction:rtl属则采用相对较右侧的元素样式；垂直方向上：当两个单元格只存在颜色不一致的情况下，较靠近顶部的边框样式将被渲染</li>
+    <li>四个角重合之处采用组合层叠的方式进行渲染，而不是单一的选择某一种样式,而四条边框则非重合（单一选择某一条边进行渲染）</li>
+    <li>上面两个角中水平方向紧贴着table边框的边很重要，如若border-style为hidden，则边框会，溢出垂直方向上不会发生溢出情况，溢出的边框不会占用文本流的空间</li>
+</ol>
+
+</body>
+</html>
